@@ -1,0 +1,39 @@
+---
+- hosts: dbservers
+  become: true
+
+  vars:
+    mysql_user_home: /root
+    mysql_user_name: root
+    mysql_user_password: example
+    mysql_databases: [name: db]
+    mysql_port: "3306"
+
+
+    
+  tasks:
+  - name: "Install mysql-server"
+    apt:
+      update_cache: yes
+      name: mysql-server
+      state: present
+
+  - name: tart mysql service
+    command: sudo systemctl start mysql.service
+
+    
+  - name: Install app dependencies.
+    ansible.builtin.command:
+    cmd: mysql> CREATE DATABASE ;
+
+
+    
+ #   db:
+  #    image: mysql:8.0.28-oracle
+ #     command: --default-authentication-plugin=mysql_native_password
+  #    restart: always
+  #    environment:
+  #      MYSQL_ROOT_PASSWORD: example
+  #    ports:
+  #      - 3306:3306
+

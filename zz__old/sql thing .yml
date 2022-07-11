@@ -1,0 +1,23 @@
+---
+- hosts: dbservers
+
+- name: "Install mysql-server"
+  apt:
+    update_cache: yes
+    name: mysql-server
+    state: present
+
+- name: remove any older unixODBC packages.
+  command: sudo systemctl start mysql.service
+
+- name: remove any older unixODBC packages.
+  command: sudo mysql_secure_installation
+
+  db:
+    image: mysql:8.0.28-oracle
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306

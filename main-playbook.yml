@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  
+  vars:
+    node_apps_location: /usr/local/app
+    git_repo: https://github.com/EAS-Clark/DiscordBot-Images.git
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - { role: geerlingguy.mysql }
+    - mysql_query
+    - nodejs
+    - appInstall
+
+  tasks:
+  - name: source ~/.bashrc
+    command: source ~/.bashrc
+

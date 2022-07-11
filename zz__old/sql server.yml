@@ -1,0 +1,39 @@
+---
+- hosts: vm
+  become: true
+  
+  vars:
+    node_apps_location: /usr/local/opt/node
+
+  roles:
+    - sql
+    - nodejs
+    - appInstall
+
+  tasks:
+  - name: Download the SQL Server 2022
+    command: sudo curl -o /etc/yum.repos.d/msprod.repo https://packages.microsoft.com/config/rhel/8/prod.repo
+
+  - name: remove any older unixODBC packages.
+    command: sudo yum remove unixODBC-utf16 unixODBC-utf16-devel
+
+  - name: install SQL Server
+    command: sudo yum install -y mssql-tools unixODBC-devel
+
+  - name: export PATH to bash_profile
+    command: echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+
+  - name:  export PATH to bashrc
+    command: echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+
+  - name: source ~/.bashrc
+    command: source ~/.bashrc
+
+  - name: opening tcp on firewall 
+    command: sudo firewall-cmd --zone=public --add-port=1433/tcp --permanent
+
+  - name: source ~/.bashrc
+    command: sudo firewall-cmd --reload
+
+
+

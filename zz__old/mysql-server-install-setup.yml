@@ -1,0 +1,38 @@
+---
+- hosts: dbservers
+  become: true
+
+  vars:
+    mysql_user_home: /root
+    mysql_user_name: root
+    mysql_user_password: example
+    mysql_databases: [name: db]
+    mysql_port: "3306"
+    mysql_tar_url: https://dev.mysql.com/get/Downloads/MySQL-8.0/
+    mysql_tar_file_name: MySQL-8.0/mysql-server_8.0.29-1ubuntu18.04_amd64.deb-bundle.tar
+
+  tasks:
+  - name: download mysql tar
+    command: wget {{ mysql_tar_url }}{{ mysql_tar_file_name }}
+
+  - name: extract tar
+    command: tar -xvf mysql-server_8.0.29-1ubuntu18.04_amd64.deb-bundle.tar
+
+  - name: Install libaio1
+    apt:
+      update_cache: yes
+      name: libaio1
+      state: present
+
+  - name: preconfigure
+    command: sudo dpkg-preconfigure --priority=critical mysql-community-server_*.deb
+
+  - name: extract tar
+    command: sudo dpkg-preconfigure --priority=critical mysql-community-server_*.deb
+
+      
+
+
+
+
+

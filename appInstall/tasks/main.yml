@@ -1,0 +1,24 @@
+---
+- hosts: vm
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ node_apps_location }}"
+    state: directory
+    mode: '0755'
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: "{{ git_repo }}"
+    dest: "{{ node_apps_location }}"
+
+- name: Install packages based on package.json.
+  become: true
+  npm:
+    path: "{{ node_apps_location }}"
+
+- name: Start example Node.js app.
+  command: npm run start 192.168.3.215
+  args:
+    chdir: "{{ node_apps_location }}"
+

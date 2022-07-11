@@ -11,9 +11,7 @@
 
   roles:
     - { role: geerlingguy.mysql }
-    - mysql_query
-    - nodejs
-    - appInstall
+
 
   tasks:
   - name: source ~/.bashrc

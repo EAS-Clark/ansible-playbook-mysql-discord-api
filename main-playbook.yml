@@ -10,10 +10,10 @@
     - vars/main.yml
 
   roles:
-    - { role: geerlingguy.mysql }
+    - pymysql
+    - { role: geerlingguy.mysql, become: yes, when: '"dbserver" in group_names'}
+    - { role: mysql_query,  when: '"dbserver" in group_names'}
+    - { role: nodejs,  when: '"vm" in group_names'}
+    - { role: appInstall ,  when: '"vm" in group_names'}
 
-
-  tasks:
-  - name: source ~/.bashrc
-    command: source ~/.bashrc
 

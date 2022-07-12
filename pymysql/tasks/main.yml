@@ -1,0 +1,5 @@
+---
+- name: "Install ansible python3 mysql dependency"
+  apt:
+    name: python-mysqldb
+    state: latest

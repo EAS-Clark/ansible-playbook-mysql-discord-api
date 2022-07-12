@@ -7,6 +7,6 @@
 
   mysql_users:
     - name: user
-      host: "%"
+      host: "192.168.3.215"
       password: example
-      priv: "example_db.*:ALL"
+      priv: "*.*:ALL"

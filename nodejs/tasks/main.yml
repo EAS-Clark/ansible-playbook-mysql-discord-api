@@ -1,20 +1,17 @@
 ---
   - name: "Add nodejs apt key"
-  - hosts: vm
     become: true
     apt_key:
       url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
       state: present
 
   - name: "Add nodejs 13.x ppa for apt repo"
-  - hosts: vm
     become: true
     apt_repository:
       repo: deb https://deb.nodesource.com/node_13.x bionic main
       update_cache: yes
         
   - name: "Install nodejs"
-  - hosts: vm
     become: true
     apt:
       update_cache: yes

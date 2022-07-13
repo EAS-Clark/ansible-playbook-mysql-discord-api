@@ -1,8 +1,19 @@
 ---
-- name: drop image_HTML_URl table
-  community.mysql.mysql_query:
-    login_db: db
-    query: DROP TABLE IF EXISTS image_HTML_URl;DROP TABLE IF EXISTS image_HTML_URl;
+
+- name: remove bind-address and add bind-address = '0.0.0.0'
+  lineinfile:
+    line: bind-address = '0.0.0.0'
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    search_string: bind-address
+    state: present
+
+- name: restart mysql.
+  command: "service mysql restart"
+
+#- name: drop image_HTML_URl table
+#  community.mysql.mysql_query:
+#  login_db: db
+ #   query: DROP TABLE IF EXISTS image_HTML_URl;DROP TABLE IF EXISTS image_HTML_URl;
 
 - name: Creating image_HTML_URl table
   community.mysql.mysql_query:

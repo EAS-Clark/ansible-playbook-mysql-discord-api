@@ -5,6 +5,8 @@
   vars:
     node_apps_location: /usr/local/app
     git_repo: https://github.com/EAS-Clark/DiscordBot-Images.git
+    db_env:
+      BD_HOST_NAME_ENV: "192.168.3.215"
 
   vars_files:
     - vars/main.yml

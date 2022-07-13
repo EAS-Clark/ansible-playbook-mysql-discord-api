@@ -1,14 +1,14 @@
   mysql_root_password: example
   
   mysql_databases:
-    - name: db
+    - name: '{{ db_name }}'
       encoding: latin1
       collation: latin1_general_ci
 
   mysql_users:
-    - name: user
+    - name: '{{ db_user }}'
       host: "%"
-      password: example
+      password: '{{ db_password }}'
       priv: "*.*:ALL"
 
 

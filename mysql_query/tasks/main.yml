@@ -17,10 +17,10 @@
 
 - name: Creating image_HTML_URl table
   community.mysql.mysql_query:
-    login_db: db
+    login_db: '{{ db_name }}'
     query: CREATE TABLE image_HTML_URl (id INT AUTO_INCREMENT NOT NULL, HTML_URL VARCHAR(300) NOT NULL,Name_of_image VARCHAR(128) NOT NULL, tag VARCHAR(128) NOT NULL,PRIMARY KEY (`id`));
 
 - name: Adding data in to image_HTML_URl
   community.mysql.mysql_query:
-    login_db: db
+    login_db: '{{ db_name }}'
     query: INSERT INTO image_HTML_URl (HTML_URL, Name_of_image, tag) VALUES ('/uploads/Billy_puppy.PNG', 'Billy_puppy', 'dog'), ('test2', 'pic', 'cat');

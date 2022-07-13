@@ -1,12 +1,15 @@
 ---
 - hosts: all
   become: true
-  
+    
   vars:
+    ip: "{{ groups['dbserver'] }}" 
     node_apps_location: /usr/local/app
     git_repo: https://github.com/EAS-Clark/DiscordBot-Images.git
-    db_env:
-      BD_HOST_NAME_ENV: "192.168.3.215"
+    db_password: 'example'
+    db_host: "{{ ip[0].split('@')[1] }}"
+    db_user: 'user'
+    db_name: 'db'
 
   vars_files:
     - vars/main.yml
@@ -17,5 +20,3 @@
     - { role: mysql_query,  when: '"dbserver" in group_names'}
     - { role: nodejs,  when: '"vm" in group_names'}
     - { role: appInstall ,  when: '"vm" in group_names'}
-
-

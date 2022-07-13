@@ -15,24 +15,12 @@
   npm:
     path: "{{ node_apps_location }}"
 
-- name: modify .bashrc
-  become_user: user 
-  blockinfile:
-    dest: ~/.bashrc
-    block: |
-      export DB_HOST='192.168.3.215'
-      export DB_USER='user'
-      export DB_PASSWORD='example'
-    insertafter: EOF
-    create: yes
-    
-- name: Source the ~/.bashrc file
-  become_user: user
-  shell: source ~/.bashrc
-  
 
 - name: Start example Node.js app.
   command: npm run start
   args:
     chdir: "{{ node_apps_location }}"
-
+  environment:
+    DB_HOST: "{{ db_host }}"
+    DB_USER: "{{ db_user }}"
+    DB_PASSWORD: "{{ db_password }}"

@@ -9,6 +9,7 @@
   ansible.builtin.git:
     repo: "{{ git_repo }}"
     dest: "{{ node_apps_location }}"
+    clone: yes
 
 - name: Install packages based on package.json.
   become: true
@@ -24,3 +25,4 @@
     DB_HOST: "{{ db_host }}"
     DB_USER: "{{ db_user }}"
     DB_PASSWORD: "{{ db_password }}"
+    DB_SCHEMA: "{{ db_name }}"

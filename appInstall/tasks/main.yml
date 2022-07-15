@@ -16,13 +16,40 @@
   npm:
     path: "{{ node_apps_location }}"
 
+- name: setting app as executable
+  file: dest={{ node_apps_location }}/src/app.js mode=a+x
 
-- name: Start example Node.js app.
-  command: npm run start
-  args:
-    chdir: "{{ node_apps_location }}"
-  environment:
-    DB_HOST: "{{ db_host }}"
-    DB_USER: "{{ db_user }}"
-    DB_PASSWORD: "{{ db_password }}"
-    DB_SCHEMA: "{{ db_name }}"
+- name: make myapp.service
+  blockinfile:
+
+    dest: /lib/systemd/system/myapp.service
+    block: |
+      [Unit]
+      Description=My app
+
+      [Service]
+      Restart=on-failure
+      ExecStart=/usr/bin/node /usr/local/app/src/app.js
+      User=nobody
+      Group=nogroup
+      Environment=DB_HOST=192.168.3.215
+      Environment=DB_USER=user
+      Environment=DB_PASSWORD=example
+      Environment=DB_SCHEMA=db
+      WorkingDirectory=/usr/local/app
+
+      [Install]
+      WantedBy=multi-user.target
+    insertafter: EOF
+    create: yes
+
+- name: daemon-reload 
+  command: systemctl daemon-reload
+
+- name: enable myapp on start up
+  command: systemctl enable myapp
+
+- name: reloading myapp.service
+  service:
+    name: myapp
+    state: restarted

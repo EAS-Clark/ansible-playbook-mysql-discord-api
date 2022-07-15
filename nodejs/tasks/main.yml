@@ -11,10 +11,10 @@
       repo: deb https://deb.nodesource.com/node_13.x bionic main
       update_cache: yes
         
-  - name: "Install nodejs"
-    become: true
+  - name: Install ansible python3 mysql dependency
     apt:
-      update_cache: yes
       name: nodejs
       state: present
-
+    register: apt_action
+    retries: 100
+    until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
